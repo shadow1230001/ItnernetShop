@@ -16,7 +16,7 @@ public class ProductController {
     private ProductService productService;
 
     @GetMapping(path = "/all", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Flux<Product> getAll(){
+    public Flux<Product> getAll() {
         return productService.getAll();
     }
 

@@ -23,7 +23,7 @@ public class SecurityConfig {
                 .pathMatchers(HttpMethod.GET,"/v1/product/all").permitAll()
                 .pathMatchers(HttpMethod.POST,"/v1/product/add").permitAll()
                 .pathMatchers(HttpMethod.GET,"/v1/user/all").hasRole(Role.ADMIN.toString())
-                .matchers(EndpointRequest.toAnyEndpoint()).hasRole(Role.ADMIN.toString())
+//                .matchers(EndpointRequest.toAnyEndpoint()).hasRole(Role.ADMIN.toString())
                 .anyExchange().permitAll()
                 .and().formLogin()
                 .and().httpBasic()
