@@ -22,8 +22,8 @@ public class UserController {
         return userService.getAll();
     }
 
-    @GetMapping(path = "/test", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Mono<User> test() {
+    @GetMapping(path = "/create", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Mono<User> create() {
         return userService.createAdminUser();
     }
 }
