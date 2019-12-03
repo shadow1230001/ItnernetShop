@@ -1,14 +1,13 @@
 package com.issoft.coherent.shop.config;
 
 import com.issoft.coherent.shop.model.Role;
-import org.springframework.boot.actuate.autoconfigure.security.reactive.EndpointRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
 import org.springframework.security.config.web.server.ServerHttpSecurity;
-import org.springframework.security.core.userdetails.MapReactiveUserDetailsService;
-import org.springframework.security.core.userdetails.User;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.server.SecurityWebFilterChain;
 
 @Configuration
@@ -30,20 +29,9 @@ public class SecurityConfig {
                 .and().build();
     }
 
-
-    @SuppressWarnings("deprecation") // Removes warning from "withDefaultPasswordEncoder()"
     @Bean
-    public MapReactiveUserDetailsService userDetailsService() {
-        return new MapReactiveUserDetailsService(
-                User.withDefaultPasswordEncoder()
-                        .username("user")
-                        .password("1")
-                        .roles(Role.USER.toString())
-                        .build(),
-                User.withDefaultPasswordEncoder()
-                        .username("admin")
-                        .password("1")
-                        .roles(Role.ADMIN.toString(), Role.USER.toString())
-                        .build());
+    public PasswordEncoder passwordEncoder() {
+        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
+
 }

@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 @RestController
 @AllArgsConstructor
@@ -19,5 +20,10 @@ public class UserController {
     @GetMapping(path = "/all", produces = MediaType.APPLICATION_JSON_VALUE)
     public Flux<User> getAll() {
         return userService.getAll();
+    }
+
+    @GetMapping(path = "/test", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Mono<User> test() {
+        return userService.createAdminUser();
     }
 }
