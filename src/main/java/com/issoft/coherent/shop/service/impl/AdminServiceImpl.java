@@ -6,6 +6,7 @@ import com.issoft.coherent.shop.service.AdminService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 @Service
 @AllArgsConstructor
@@ -16,5 +17,14 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public Flux<Order> findInCompletedOrders() {
         return orderRepository.findAllByCompletedIsFalse();
+    }
+
+    @Override
+    public Mono<Order> completeOrder(String orderId) {
+        return orderRepository.findById(orderId).switchIfEmpty(Mono.error(new IllegalArgumentException("Order not found")))
+                .map(order -> {
+                    order.setCompleted(true);
+                    return order;
+                }).flatMap(orderRepository::save);
     }
 }
