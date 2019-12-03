@@ -9,7 +9,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 
 @Service
 @AllArgsConstructor
@@ -26,7 +26,7 @@ public class BasketServiceImpl implements BasketService {
                 .flatMap(product -> basketRepository.findById(basketId)
                         .switchIfEmpty(Mono.just(createBasket(basketId)))
                         .map(basket -> {
-                            basket.getProductPositions().add(new ProductPosition(product, amount));
+                            basket.getProductPositions().put(productId, new ProductPosition(product, amount));
                             return basket;
                         }).flatMap(basket -> basketRepository.save(basket)));
     }
@@ -34,7 +34,7 @@ public class BasketServiceImpl implements BasketService {
     private Basket createBasket(String basketId) {
         Basket basket = new Basket();
         basket.setId(basketId);
-        basket.setProductPositions(new ArrayList<>());
+        basket.setProductPositions(new HashMap<>());
         return basket;
     }
 }

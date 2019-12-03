@@ -1,12 +1,11 @@
 package com.issoft.coherent.shop.model;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.util.List;
+import java.util.Map;
 
 @Data
 @NoArgsConstructor
@@ -16,5 +15,5 @@ public class Basket {
     @Id
     String id;
 
-    List<ProductPosition> productPositions;
+    Map<String, ProductPosition> productPositions;
 }
