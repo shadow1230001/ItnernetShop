@@ -9,7 +9,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
-import java.util.List;
+import java.util.ArrayList;
 
 @Service
 @AllArgsConstructor
@@ -21,14 +21,20 @@ public class BasketServiceImpl implements BasketService {
 
     @Override
     public Mono<Basket> add(String productId, int amount, String basketId) {
+        return productRepository.findById(productId)
+                .switchIfEmpty(Mono.error(new IllegalArgumentException("Product not found")))
+                .flatMap(product -> basketRepository.findById(basketId)
+                        .switchIfEmpty(Mono.just(createBasket(basketId)))
+                        .map(basket -> {
+                            basket.getProductPositions().add(new ProductPosition(product, amount));
+                            return basket;
+                        }).flatMap(basket -> basketRepository.save(basket)));
+    }
 
-        return productRepository.findById(productId).map(product -> {
-            Basket basket = new Basket();
-            basket.setId(basketId);
-            ProductPosition productPosition = new ProductPosition(product, amount);
-            basket.setProductPositions(List.of(productPosition));
-            return basket;
-        }).flatMap(basket -> basketRepository.save(basket));
-
+    private Basket createBasket(String basketId) {
+        Basket basket = new Basket();
+        basket.setId(basketId);
+        basket.setProductPositions(new ArrayList<>());
+        return basket;
     }
 }
