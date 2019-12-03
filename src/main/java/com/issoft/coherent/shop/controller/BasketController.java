@@ -1,6 +1,6 @@
 package com.issoft.coherent.shop.controller;
 
-import com.issoft.coherent.shop.model.Basket;
+import com.issoft.coherent.shop.document.Basket;
 import com.issoft.coherent.shop.service.BasketService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.MediaType;

@@ -1,6 +1,6 @@
 package com.issoft.coherent.shop.controller;
 
-import com.issoft.coherent.shop.model.User;
+import com.issoft.coherent.shop.document.User;
 import com.issoft.coherent.shop.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.MediaType;

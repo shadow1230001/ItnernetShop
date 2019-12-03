@@ -1,4 +1,4 @@
-package com.issoft.coherent.shop.model;
+package com.issoft.coherent.shop.document;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

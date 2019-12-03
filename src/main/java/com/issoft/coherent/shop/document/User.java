@@ -1,6 +1,7 @@
-package com.issoft.coherent.shop.model;
+package com.issoft.coherent.shop.document;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.issoft.coherent.shop.model.Role;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.data.annotation.Id;

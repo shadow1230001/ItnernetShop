@@ -1,6 +1,6 @@
 package com.issoft.coherent.shop.service;
 
-import com.issoft.coherent.shop.model.Basket;
+import com.issoft.coherent.shop.document.Basket;
 import reactor.core.publisher.Mono;
 
 public interface BasketService {

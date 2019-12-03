@@ -1,6 +1,6 @@
 package com.issoft.coherent.shop.service.impl;
 
-import com.issoft.coherent.shop.model.Product;
+import com.issoft.coherent.shop.document.Product;
 import com.issoft.coherent.shop.repository.ProductRepository;
 import com.issoft.coherent.shop.service.ProductService;
 import lombok.AllArgsConstructor;

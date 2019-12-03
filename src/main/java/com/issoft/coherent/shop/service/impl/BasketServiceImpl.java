@@ -1,6 +1,6 @@
 package com.issoft.coherent.shop.service.impl;
 
-import com.issoft.coherent.shop.model.Basket;
+import com.issoft.coherent.shop.document.Basket;
 import com.issoft.coherent.shop.model.ProductPosition;
 import com.issoft.coherent.shop.repository.BasketRepository;
 import com.issoft.coherent.shop.repository.ProductRepository;
@@ -9,6 +9,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
+import java.util.Date;
 import java.util.HashMap;
 
 @Service
@@ -35,6 +36,7 @@ public class BasketServiceImpl implements BasketService {
         Basket basket = new Basket();
         basket.setId(basketId);
         basket.setProductPositions(new HashMap<>());
+        basket.setCreated(new Date());
         return basket;
     }
 }
