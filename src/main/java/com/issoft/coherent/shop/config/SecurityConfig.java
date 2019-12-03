@@ -1,5 +1,6 @@
 package com.issoft.coherent.shop.config;
 
+import com.issoft.coherent.shop.model.Role;
 import org.springframework.boot.actuate.autoconfigure.security.reactive.EndpointRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,7 +22,8 @@ public class SecurityConfig {
                 .authorizeExchange()
                 .pathMatchers(HttpMethod.GET,"/v1/product/all").permitAll()
                 .pathMatchers(HttpMethod.POST,"/v1/product/add").permitAll()
-                .matchers(EndpointRequest.toAnyEndpoint()).hasRole("ADMIN")
+                .pathMatchers(HttpMethod.GET,"/v1/user/all").hasRole(Role.ADMIN.toString())
+                .matchers(EndpointRequest.toAnyEndpoint()).hasRole(Role.ADMIN.toString())
                 .anyExchange().permitAll()
                 .and().formLogin()
                 .and().httpBasic()
@@ -35,13 +37,13 @@ public class SecurityConfig {
         return new MapReactiveUserDetailsService(
                 User.withDefaultPasswordEncoder()
                         .username("user")
-                        .password("password")
-                        .roles("USER")
+                        .password("1")
+                        .roles(Role.USER.toString())
                         .build(),
                 User.withDefaultPasswordEncoder()
                         .username("admin")
-                        .password("password")
-                        .roles("USER,ADMIN")
+                        .password("1")
+                        .roles(Role.ADMIN.toString(), Role.USER.toString())
                         .build());
     }
 }
