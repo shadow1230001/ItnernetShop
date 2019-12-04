@@ -41,7 +41,7 @@ public class UserServiceImpl implements UserService {
                     if (user.getId() == null) {
                         return User.builder()
                                 .username(email)
-                                .password(password)
+                                .password(passwordEncoder.encode(password))
                                 .statuses(Status.NEW_USER)
                                 .build();
                     } else {
