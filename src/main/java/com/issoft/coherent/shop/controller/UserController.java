@@ -1,6 +1,7 @@
 package com.issoft.coherent.shop.controller;
 
 import com.issoft.coherent.shop.document.User;
+import com.issoft.coherent.shop.model.dto.RegistrationForm;
 import com.issoft.coherent.shop.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.MediaType;
@@ -26,7 +27,7 @@ public class UserController {
     }
 
     @PostMapping(path = "/registry", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Mono<User> registry(@RequestBody String username, @RequestBody String password) {
-        return userService.createNewUser(username,password);
+    public Mono<User> registry(@RequestBody RegistrationForm registrationForm) {
+        return userService.createNewUser(registrationForm.getUsername(),registrationForm.getPassword());
     }
 }
