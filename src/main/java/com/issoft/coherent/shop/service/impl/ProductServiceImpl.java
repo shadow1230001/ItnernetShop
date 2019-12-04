@@ -23,4 +23,14 @@ public class ProductServiceImpl implements ProductService {
     public Mono<Product> save(Product product) {
         return productRepository.save(product);
     }
+
+    @Override
+    public Mono<Product> editProduct(String productId, Product product) {
+        return productRepository.findById(productId).switchIfEmpty(Mono.error(new IllegalArgumentException("Product not found")))
+                .map(product1 -> Product.builder()
+                        .description(product.getDescription())
+                        .name(product.getName())
+                        .price(product.getPrice())
+                        .build()).flatMap(productRepository::save);
+    }
 }

@@ -9,4 +9,7 @@ public interface ProductService {
     Flux<Product> getAll();
 
     Mono<Product> save(Product product);
+
+    Mono<Product> editProduct(String productId, Product Product);
+
 }

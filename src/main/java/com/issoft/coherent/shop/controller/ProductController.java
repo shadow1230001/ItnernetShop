@@ -25,4 +25,9 @@ public class ProductController {
         return productService.save(product);
     }
 
+    @PostMapping(path = "/edit/{productId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Mono<Product> updateProduct(@PathVariable String productId, @RequestBody Product product) {
+        return productService.editProduct(productId, product);
+    }
+
 }
