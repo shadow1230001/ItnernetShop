@@ -4,9 +4,7 @@ import com.issoft.coherent.shop.document.User;
 import com.issoft.coherent.shop.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -25,5 +23,10 @@ public class UserController {
     @GetMapping(path = "/create", produces = MediaType.APPLICATION_JSON_VALUE)
     public Mono<User> create() {
         return userService.createAdminUser();
+    }
+
+    @PostMapping(path = "/registry", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Mono<User> registry(@RequestBody String username, @RequestBody String password) {
+        return userService.createNewUser(username,password);
     }
 }

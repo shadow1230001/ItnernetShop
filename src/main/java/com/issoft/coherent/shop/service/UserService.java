@@ -10,4 +10,5 @@ public interface UserService {
 
     Mono<User> createAdminUser();
 
+    Mono<User> createNewUser(String username, String password);
 }
