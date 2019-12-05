@@ -1,9 +1,10 @@
 package com.issoft.coherent.shop.service;
 
+import com.issoft.coherent.shop.document.User;
 import reactor.core.publisher.Mono;
 
 public interface MailService {
 
-    Mono<Void> registration(String link, String recipient);
+    Mono<User> registration(String recipient);
 
 }

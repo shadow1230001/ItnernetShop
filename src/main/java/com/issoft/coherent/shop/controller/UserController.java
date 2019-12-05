@@ -2,6 +2,7 @@ package com.issoft.coherent.shop.controller;
 
 import com.issoft.coherent.shop.document.User;
 import com.issoft.coherent.shop.model.dto.RegistrationForm;
+import com.issoft.coherent.shop.service.MailService;
 import com.issoft.coherent.shop.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.MediaType;
@@ -15,6 +16,7 @@ import reactor.core.publisher.Mono;
 public class UserController {
 
     private UserService userService;
+    private MailService mailService;
 
     @GetMapping(path = "/all", produces = MediaType.APPLICATION_JSON_VALUE)
     public Flux<User> getAll() {
@@ -28,6 +30,7 @@ public class UserController {
 
     @PostMapping(path = "/registry", produces = MediaType.APPLICATION_JSON_VALUE)
     public Mono<User> registry(@RequestBody RegistrationForm registrationForm) {
-        return userService.createNewUser(registrationForm.getUsername(),registrationForm.getPassword());
+        Mono<User> userMono = userService.createNewUser(registrationForm.getUsername(), registrationForm.getPassword());
+        return userMono.flatMap(user -> mailService.registration(registrationForm.getUsername()));
     }
 }

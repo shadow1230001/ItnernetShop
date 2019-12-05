@@ -1,5 +1,6 @@
 package com.issoft.coherent.shop.service.impl;
 
+import com.issoft.coherent.shop.document.User;
 import com.issoft.coherent.shop.service.MailService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -13,12 +14,15 @@ import reactor.core.publisher.Mono;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import java.nio.charset.StandardCharsets;
+import java.util.logging.Logger;
 
 import static com.issoft.coherent.shop.model.MailingTemplates.REGISTRATION;
 
 @Service
 @RequiredArgsConstructor
 public class MailServiceImpl implements MailService {
+
+    private final static Logger LOGGER = Logger.getLogger(MailServiceImpl.class.getName());
 
     private final TemplateEngine templateEngine;
     private final JavaMailSender mailSender;
@@ -27,10 +31,9 @@ public class MailServiceImpl implements MailService {
     private String sender;
 
     @Override
-    public Mono<Void> registration(String key, String recipient) {
+    public Mono<User> registration(String recipient) {
         return Mono.fromRunnable(() -> {
             Context context = new Context();
-            context.setVariable("key", key);
             String htmlContent = templateEngine.process(REGISTRATION.getPath(), context);
             sendMail(htmlContent, "Регистрация", recipient);
         });
@@ -46,7 +49,7 @@ public class MailServiceImpl implements MailService {
             helper.setTo(recipient);
             mailSender.send(message);
         } catch (MessagingException e) {
-            e.printStackTrace();
+            LOGGER.info("Message dont sent");
         }
     }
 }

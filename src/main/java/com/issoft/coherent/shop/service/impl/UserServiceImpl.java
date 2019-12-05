@@ -32,7 +32,6 @@ public class UserServiceImpl implements UserService {
         User user = User.builder()
                 .username("admin")
                 .password(passwordEncoder.encode("1"))
-                .email("alex@gmail.com")
                 .active(true)
                 .created(new Date())
                 .roles(List.of(Role.ADMIN))
@@ -56,6 +55,5 @@ public class UserServiceImpl implements UserService {
                     }
                 }).flatMap(userRepository::save);
     }
-
 
 }

@@ -27,8 +27,6 @@ public class User {
     @Indexed(unique = true)
     String username;
 
-    String email;
-
     @JsonIgnore
     String password;
 
@@ -40,5 +38,4 @@ public class User {
 
     Date created;
 
-    String confirm;
 }
