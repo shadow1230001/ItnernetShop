@@ -29,7 +29,14 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Mono<User> createAdminUser() {
-        User user = User.builder().username("admin").password(passwordEncoder.encode("1")).email("alex@gmail.com").active(true).created(new Date()).roles(List.of(Role.ADMIN)).build();
+        User user = User.builder()
+                .username("admin")
+                .password(passwordEncoder.encode("1"))
+                .email("alex@gmail.com")
+                .active(true)
+                .created(new Date())
+                .roles(List.of(Role.ADMIN))
+                .build();
         return userRepository.save(user);
     }
 
@@ -40,7 +47,7 @@ public class UserServiceImpl implements UserService {
                 .map(user -> {
                     if (user.getId() == null) {
                         return User.builder()
-                                .username(email)
+                                .username(email.toLowerCase())
                                 .password(passwordEncoder.encode(password))
                                 .statuses(Status.NEW_USER)
                                 .build();

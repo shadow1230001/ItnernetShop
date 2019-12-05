@@ -24,9 +24,9 @@ public class User {
     @Id
     String id;
 
+    @Indexed(unique = true)
     String username;
 
-    @Indexed(unique = true)
     String email;
 
     @JsonIgnore
