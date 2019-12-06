@@ -31,6 +31,7 @@ public class UserController {
     @PostMapping(path = "/registry", produces = MediaType.APPLICATION_JSON_VALUE)
     public Mono<User> registry(@RequestBody RegistrationForm registrationForm) {
         Mono<User> userMono = userService.createNewUser(registrationForm.getUsername(), registrationForm.getPassword());
-        return userMono.flatMap(user -> mailService.registration(registrationForm.getUsername()));
+        return userMono.flatMap(user -> mailService.registration(registrationForm.getUsername()).thenReturn(user));
     }
+
 }

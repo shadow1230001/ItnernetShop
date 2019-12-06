@@ -1,8 +1,9 @@
 package com.issoft.coherent.shop.service.impl;
 
-import com.issoft.coherent.shop.document.User;
 import com.issoft.coherent.shop.service.MailService;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -10,11 +11,11 @@ import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 import reactor.core.publisher.Mono;
+import reactor.core.scheduler.Schedulers;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import java.nio.charset.StandardCharsets;
-import java.util.logging.Logger;
 
 import static com.issoft.coherent.shop.model.MailingTemplates.REGISTRATION;
 
@@ -22,7 +23,7 @@ import static com.issoft.coherent.shop.model.MailingTemplates.REGISTRATION;
 @RequiredArgsConstructor
 public class MailServiceImpl implements MailService {
 
-    private final static Logger LOGGER = Logger.getLogger(MailServiceImpl.class.getName());
+    private final Logger LOG = LoggerFactory.getLogger(MailServiceImpl.class);
 
     private final TemplateEngine templateEngine;
     private final JavaMailSender mailSender;
@@ -31,12 +32,12 @@ public class MailServiceImpl implements MailService {
     private String sender;
 
     @Override
-    public Mono<User> registration(String recipient) {
+    public Mono<Void> registration(String recipient) {
         return Mono.fromRunnable(() -> {
             Context context = new Context();
             String htmlContent = templateEngine.process(REGISTRATION.getPath(), context);
             sendMail(htmlContent, "Регистрация", recipient);
-        });
+        }).publishOn(Schedulers.elastic()).then();
     }
 
     private void sendMail(String template, String subject, String recipient) {
@@ -49,7 +50,7 @@ public class MailServiceImpl implements MailService {
             helper.setTo(recipient);
             mailSender.send(message);
         } catch (MessagingException e) {
-            LOGGER.info("Message dont sent");
+            LOG.error("Message not found", e);
         }
     }
 }
