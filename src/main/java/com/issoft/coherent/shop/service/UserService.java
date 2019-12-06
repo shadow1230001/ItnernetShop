@@ -12,4 +12,8 @@ public interface UserService {
 
     Mono<User> createNewUser(String username, String password);
 
+    Mono<User> getActivityUser(String key);
+
+    Mono<Void> updateUser();
+
 }

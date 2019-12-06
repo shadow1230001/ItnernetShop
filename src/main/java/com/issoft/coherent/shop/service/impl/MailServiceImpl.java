@@ -32,9 +32,10 @@ public class MailServiceImpl implements MailService {
     private String sender;
 
     @Override
-    public Mono<Void> registration(String recipient) {
+    public Mono<Void> registration(String key, String recipient) {
         return Mono.fromRunnable(() -> {
             Context context = new Context();
+            context.setVariable("key", key);
             String htmlContent = templateEngine.process(REGISTRATION.getPath(), context);
             sendMail(htmlContent, "Регистрация", recipient);
         }).publishOn(Schedulers.elastic()).then();

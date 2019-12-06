@@ -6,6 +6,7 @@ import com.issoft.coherent.shop.service.MailService;
 import com.issoft.coherent.shop.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.MediaType;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -31,7 +32,16 @@ public class UserController {
     @PostMapping(path = "/registry", produces = MediaType.APPLICATION_JSON_VALUE)
     public Mono<User> registry(@RequestBody RegistrationForm registrationForm) {
         Mono<User> userMono = userService.createNewUser(registrationForm.getUsername(), registrationForm.getPassword());
-        return userMono.flatMap(user -> mailService.registration(registrationForm.getUsername()).thenReturn(user));
+        return userMono.flatMap(user -> mailService.registration(user.getConfirm(), registrationForm.getUsername()).thenReturn(user));
     }
 
+    @PutMapping(path = "/activity/{key}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Mono<User> create(@PathVariable String key) {
+        return userService.getActivityUser(key);
+    }
+
+    @Scheduled(cron = "0 0 12 * * ?", zone = "Europe/Minsk")
+    public void updateUser() {
+        userService.updateUser().subscribe();
+    }
 }
