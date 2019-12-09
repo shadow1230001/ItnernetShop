@@ -24,8 +24,15 @@ public class UserDetailsServiceImpl implements ReactiveUserDetailsService {
         return userRepository.findByUsername(username).map(user -> {
             List<GrantedAuthority> grantedAuthorities = user.getRoles().stream()
                     .map(role -> new SimpleGrantedAuthority(role.toString())).collect(Collectors.toList());
-            UserDetails userDetails = new User(username, user.getPassword(), user.isActive(), true,
-                    true, true, grantedAuthorities);
+            UserDetails userDetails = User.builder()
+                    .username(username)
+                    .password(user.getPassword())
+                    .disabled(!user.isActive())
+                    .accountExpired(false)
+                    .credentialsExpired(false)
+                    .accountLocked(false)
+                    .authorities(grantedAuthorities)
+                    .build();
             return userDetails;
         });
     }

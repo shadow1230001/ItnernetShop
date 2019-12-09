@@ -49,6 +49,7 @@ public class UserServiceImpl implements UserService {
                                 .username(email.toLowerCase())
                                 .password(passwordEncoder.encode(password))
                                 .statuses(Status.NEW_USER)
+                                .roles(List.of(Role.USER))
                                 .confirm(UUID.randomUUID().toString())
                                 .build();
                     } else {
